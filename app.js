@@ -1,40 +1,16 @@
 const form = document.querySelector('#searchForm')
 const input = document.querySelector('input');
-form.addEventListener('submit', async function (e){
-    e.preventDefault();
-    const searchTerm = form.elements.query.value;
-    const config = { params: { q: searchTerm }}
+
+const processQuery = async () => {
     // const res =  await axios.get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
     //instead of above we should use config object
-    const res =  await axios.get(`https://api.tvmaze.com/search/shows`, config)
-    makeImages(res.data)
-    console.log(res.data)
-    form.elements.query.value = '';
-})
-const deleteButton = document.querySelector('#delete')
-
-deleteButton.addEventListener('click', () => {
-    deleteShows();
-})
-
-
-input.addEventListener('input', async function () {
-    deleteShows();
+    // const res =  await axios.get(`https://api.tvmaze.com/search/shows`, config)
     const searchTerm = form.elements.query.value;
-    console.log(searchTerm)
     const config = { params: { q: searchTerm }}
     const res =  await axios.get(`https://api.tvmaze.com/search/shows`, config)
-    makeImages(res.data)
-})
-
-const deleteShows = function () {
-    const figures = document.querySelectorAll('figure')
-    for(let figure of figures){
-        figure.remove();
-    }
+    return res;
 }
-
-const makeImages = (shows) => {
+const makeShows = (shows) => {
     for(let result of shows){
         if(result.show.image){
             const container = document.createElement('FIGURE');
@@ -51,6 +27,26 @@ const makeImages = (shows) => {
     }
 }
 
+const deleteShows = function () {
+    const figures = document.querySelectorAll('figure')
+    for(let figure of figures){
+        figure.remove();
+    }
+}
+
+form.addEventListener('submit', async function (e){
+    e.preventDefault();
+    deleteShows();
+    let response = await processQuery()
+    makeShows(response.data)
+    this.elements.query.value = '';
+})
+
+input.addEventListener('input', async function () {
+    deleteShows();
+    let response = await processQuery()
+    makeShows(response.data)
+})
 
 //======
 

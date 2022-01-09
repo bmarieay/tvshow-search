@@ -5,11 +5,17 @@ const processQuery = async () => {
     // const res =  await axios.get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
     //instead of above we should use config object
     // const res =  await axios.get(`https://api.tvmaze.com/search/shows`, config)
-    const searchTerm = form.elements.query.value;
-    const config = { params: { q: searchTerm }}
-    const res =  await axios.get(`https://api.tvmaze.com/search/shows`, config)
-    return res;
+    try {
+        const searchTerm = form.elements.query.value;
+        const config = { params: { q: searchTerm }}
+        const res =  await axios.get(`https://api.tvmaze.com/search/shows`, config)
+        return res;
+    } catch (e) {
+        console.log('Connection Timeout', e)
+    }
 }
+
+
 const makeShows = (shows) => {
     for(let result of shows){
         if(result.show.image){
@@ -38,14 +44,24 @@ form.addEventListener('submit', async function (e){
     e.preventDefault();
     deleteShows();
     let response = await processQuery()
-    makeShows(response.data)
+    //check if connecting to the api was successful before accessing data
+    if(typeof response === 'undefined'){
+        console.log('cannot display')
+    } else {
+        makeShows(response.data)
+    }
     this.elements.query.value = '';
 })
 
 input.addEventListener('input', async function () {
     deleteShows();
     let response = await processQuery()
-    makeShows(response.data)
+    if(typeof response === 'undefined'){
+        console.log('cannot display')
+        
+    } else {
+        makeShows(response.data)
+    }
 })
 
 //======

@@ -56,7 +56,6 @@ button:hover{
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
 
 figure{
@@ -65,9 +64,18 @@ figure{
     transition: transform .25s ease-in-out, opacity .75s ease-in-out;
 }
 
+figcaption{
+    padding: 10px 0;
+}
+
 .animate{
     opacity: 1;
     transform: scale(1);
+}
+
+.animate:hover{
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 15px -3px rgba(127, 129, 236, 0.5);
 }
 
 input {
@@ -86,6 +94,7 @@ input {
 }
 
 main{
+    padding-top: 5rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -95,6 +104,8 @@ main{
     input{
         max-width: 500px;
     }
+
+    
 
     #header__title{
         font-size: 3rem;

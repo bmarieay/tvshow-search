@@ -29,7 +29,7 @@ const makeShows = (shows) => {
             container.style.display = 'inline-block'
             title.style.textAlign = 'center'
             main.append(container);
-            setTimeout(()=> container.classList.add("animate"), 500)
+            setTimeout(()=> container.classList.add("animate"), 200)
         }
     }
 }

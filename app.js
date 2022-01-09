@@ -1,6 +1,6 @@
 const form = document.querySelector('#searchForm')
 const input = document.querySelector('input');
-
+const main = document.querySelector('main')
 const processQuery = async () => {
     // const res =  await axios.get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
     //instead of above we should use config object
@@ -28,7 +28,8 @@ const makeShows = (shows) => {
             container.append(title)
             container.style.display = 'inline-block'
             title.style.textAlign = 'center'
-            document.body.append(container);
+            main.append(container);
+            setTimeout(()=> container.classList.add("animate"), 500)
         }
     }
 }
@@ -63,6 +64,8 @@ input.addEventListener('input', async function () {
         makeShows(response.data)
     }
 })
+
+
 
 //======
 
